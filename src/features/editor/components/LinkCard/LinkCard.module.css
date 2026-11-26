@@ -1,0 +1,75 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+  border-radius: var(--radius-medium);
+  background: var(--color-background-light);
+  padding: var(--spacing-20);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.titleGroup,
+.reorderControls {
+  display: flex;
+  align-items: center;
+}
+
+.titleGroup {
+  gap: var(--spacing-8);
+}
+
+.reorderControls {
+  flex-direction: column;
+  gap: 2px;
+}
+
+.moveButton {
+  width: 18px;
+  height: 11px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  padding: 0;
+  font-size: 9px;
+  line-height: 11px;
+  cursor: pointer;
+}
+
+.moveButton:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.title,
+.remove {
+  color: var(--color-text-secondary);
+  font-size: var(--font-body-size);
+  line-height: var(--line-height-default);
+}
+
+.title {
+  font-weight: var(--font-heading-small-weight);
+}
+
+.remove {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.fieldIcon {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 767px) {
+  .card {
+    padding: var(--spacing-16);
+  }
+}

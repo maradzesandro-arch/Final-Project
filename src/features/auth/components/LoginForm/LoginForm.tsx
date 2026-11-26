@@ -11,14 +11,19 @@ import styles from "./LoginForm.module.css";
 
 interface LoginFormProps {
   onSubmit?: (credentials: LoginCredentials) => void;
+  submitError?: string;
 }
 
 const loginSchema = yup.object({
-  email: yup.string().trim().required("Can’t be empty").email("Please check again"),
+  email: yup
+    .string()
+    .trim()
+    .required("Can’t be empty")
+    .email("Please check again"),
   password: yup.string().required("Please check again"),
 });
 
-export function LoginForm({ onSubmit }: LoginFormProps) {
+export function LoginForm({ onSubmit, submitError }: LoginFormProps) {
   const {
     register,
     handleSubmit,
@@ -44,7 +49,9 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         placeholder="e.g. alex@email.com"
         autoComplete="email"
         error={errors.email?.message}
-        leadingIcon={<img src={envelopeIcon} alt="" className={styles.fieldIcon} />}
+        leadingIcon={
+          <img src={envelopeIcon} alt="" className={styles.fieldIcon} />
+        }
         {...register("email")}
       />
 
@@ -57,6 +64,12 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         leadingIcon={<img src={lockIcon} alt="" className={styles.fieldIcon} />}
         {...register("password")}
       />
+
+      {submitError ? (
+        <p className={styles.submitError} role="alert">
+          {submitError}
+        </p>
+      ) : null}
 
       <Button variant="primary" fullWidth type="submit">
         Login

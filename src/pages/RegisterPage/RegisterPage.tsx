@@ -1,13 +1,31 @@
-import type { JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { RegisterForm } from "../../features/auth/components/RegisterForm";
 import type { RegistrationCredentials } from "../../features/auth/types";
 import { Logo } from "../../components/Logo";
+import { useAuthStore } from "../../store";
 import styles from "./RegisterPage.module.css";
 
 export function RegisterPage(): JSX.Element {
-  const handleSubmit = (_credentials: RegistrationCredentials) => {
-    // Authentication is intentionally deferred until a later phase.
+  const navigate = useNavigate();
+  const register = useAuthStore((state) => state.register);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const [submitError, setSubmitError] = useState<string>();
+
+  useEffect(() => {
+    if (isAuthenticated) navigate("/editor", { replace: true });
+  }, [isAuthenticated, navigate]);
+
+  const handleSubmit = (credentials: RegistrationCredentials) => {
+    const result = register(credentials.email);
+    if (!result.success) {
+      setSubmitError(result.error);
+      return;
+    }
+
+    setSubmitError(undefined);
+    navigate("/editor", { replace: true });
   };
 
   return (
@@ -25,11 +43,15 @@ export function RegisterPage(): JSX.Element {
             </p>
           </div>
 
-          <RegisterForm onSubmit={handleSubmit} />
+          <RegisterForm onSubmit={handleSubmit} submitError={submitError} />
 
           <p className={styles.footer}>
             <span>Already have an account? </span>
-            <button type="button" className={styles.link}>
+            <button
+              type="button"
+              className={styles.link}
+              onClick={() => navigate("/login")}
+            >
               Login
             </button>
           </p>

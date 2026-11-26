@@ -1,0 +1,122 @@
+.page {
+  min-height: 984px;
+  background: var(--color-background-light);
+}
+
+.layout {
+  min-height: 858px;
+  display: grid;
+  grid-template-columns: 560px 808px;
+  align-items: start;
+  padding: 24px;
+}
+
+.previewColumn {
+  min-height: 834px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editorColumn {
+  min-height: 834px;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-medium);
+  background: var(--color-white);
+  overflow: hidden;
+}
+
+.editorBody {
+  flex: 1;
+  padding: var(--spacing-40);
+}
+
+.heading {
+  margin-bottom: var(--spacing-40);
+}
+
+.title {
+  color: var(--color-text-dark);
+  font-size: var(--font-heading-desktop-size);
+  font-weight: var(--font-heading-desktop-weight);
+  line-height: var(--line-height-default);
+}
+
+.description {
+  margin-top: 8px;
+  color: var(--color-text-secondary);
+  font-size: var(--font-body-size);
+  line-height: var(--line-height-default);
+}
+
+.footer {
+  height: 95px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-top: 1px solid var(--color-border);
+  padding: 24px 40px;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 10;
+  transform: translateX(-50%);
+  border-radius: var(--radius-small);
+  background: var(--color-text-dark);
+  color: var(--color-white);
+  padding: 16px 24px;
+  box-shadow: 0 0 32px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 1439px) {
+  .layout {
+    grid-template-columns: 560px minmax(0, 808px);
+  }
+}
+
+@media (max-width: 1050px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .previewColumn {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .page {
+    min-height: 812px;
+  }
+
+  .layout {
+    min-height: 738px;
+    display: block;
+    padding: 16px;
+  }
+
+  .editorColumn {
+    min-height: 706px;
+  }
+
+  .editorBody {
+    padding: var(--spacing-24);
+  }
+
+  .heading {
+    margin-bottom: var(--spacing-24);
+  }
+
+  .title {
+    font-size: var(--font-heading-mobile-size);
+  }
+
+  .footer {
+    height: 79px;
+    padding: 16px;
+  }
+}

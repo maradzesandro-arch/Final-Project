@@ -1,7 +1,6 @@
 .app {
   min-height: 100vh;
   background: var(--color-background-light);
-  padding: var(--spacing-32);
 }
 
 .previewTitle {
