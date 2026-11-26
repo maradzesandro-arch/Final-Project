@@ -75,6 +75,10 @@
   height: 20px;
 }
 
+.logoutButton {
+  flex-shrink: 0;
+}
+
 @media (max-width: 767px) {
   .header {
     padding: 16px;

@@ -13,6 +13,7 @@ export interface HeaderProps {
   activeTab?: HeaderTab;
   onTabChange?: (tab: HeaderTab) => void;
   onPreview?: ButtonHTMLAttributes<HTMLButtonElement>["onClick"];
+  onLogout?: ButtonHTMLAttributes<HTMLButtonElement>["onClick"];
   className?: string;
 }
 
@@ -20,6 +21,7 @@ export function Header({
   activeTab = "links",
   onTabChange,
   onPreview,
+  onLogout,
   className,
 }: HeaderProps) {
   const combinedClassName = [styles.header, className]
@@ -68,23 +70,36 @@ export function Header({
           </button>
         </nav>
 
-        <Button
-          variant="secondary"
-          className={styles.previewDesktop}
-          onClick={onPreview}
-          aria-label="Preview profile"
-        >
-          Preview
-        </Button>
+        <div className={styles.controls}>
+          <Button
+            variant="secondary"
+            className={styles.previewDesktop}
+            onClick={onPreview}
+            aria-label="Preview profile"
+          >
+            Preview
+          </Button>
 
-        <Button
-          variant="secondary"
-          className={styles.previewMobile}
-          onClick={onPreview}
-          aria-label="Preview profile"
-        >
-          <img src={previewIcon} alt="" className={styles.previewIcon} />
-        </Button>
+          <Button
+            variant="secondary"
+            className={styles.previewMobile}
+            onClick={onPreview}
+            aria-label="Preview profile"
+          >
+            <img src={previewIcon} alt="" className={styles.previewIcon} />
+          </Button>
+
+          {onLogout ? (
+            <Button
+              variant="secondary"
+              className={styles.logoutButton}
+              onClick={onLogout}
+              aria-label="Logout"
+            >
+              Logout
+            </Button>
+          ) : null}
+        </div>
       </div>
     </header>
   );

@@ -11,10 +11,15 @@ import styles from "./RegisterForm.module.css";
 
 interface RegisterFormProps {
   onSubmit?: (credentials: RegistrationCredentials) => void;
+  submitError?: string;
 }
 
 const registerSchema = yup.object({
-  email: yup.string().trim().required("Can’t be empty").email("Please check again"),
+  email: yup
+    .string()
+    .trim()
+    .required("Can’t be empty")
+    .email("Please check again"),
   password: yup
     .string()
     .required("Please check again")
@@ -25,7 +30,7 @@ const registerSchema = yup.object({
     .oneOf([yup.ref("password")], "Passwords must match"),
 });
 
-export function RegisterForm({ onSubmit }: RegisterFormProps) {
+export function RegisterForm({ onSubmit, submitError }: RegisterFormProps) {
   const {
     register,
     handleSubmit,
@@ -51,7 +56,9 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
         placeholder="e.g. alex@email.com"
         autoComplete="email"
         error={errors.email?.message}
-        leadingIcon={<img src={envelopeIcon} alt="" className={styles.fieldIcon} />}
+        leadingIcon={
+          <img src={envelopeIcon} alt="" className={styles.fieldIcon} />
+        }
         {...register("email")}
       />
 
@@ -75,7 +82,15 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
         {...register("confirmPassword")}
       />
 
-      <p className={styles.passwordHint}>Password must contain at least 8 characters</p>
+      <p className={styles.passwordHint}>
+        Password must contain at least 8 characters
+      </p>
+
+      {submitError ? (
+        <p className={styles.submitError} role="alert">
+          {submitError}
+        </p>
+      ) : null}
 
       <Button variant="primary" fullWidth type="submit">
         Create new account

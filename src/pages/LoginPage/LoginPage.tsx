@@ -1,14 +1,33 @@
-import type { JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { LoginForm } from "../../features/auth/components/LoginForm";
 import type { LoginCredentials } from "../../features/auth/types";
 import { Logo } from "../../components/Logo";
+import { useAuthStore } from "../../store";
 import styles from "./LoginPage.module.css";
 
 export function LoginPage(): JSX.Element {
-  const handleSubmit = (_credentials: LoginCredentials) => {
-    // Authentication is intentionally deferred until a later phase.
+  const navigate = useNavigate();
+  const login = useAuthStore((state) => state.login);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const [submitError, setSubmitError] = useState<string>();
+
+  const handleSubmit = (credentials: LoginCredentials) => {
+    const result = login(credentials.email);
+    if (!result.success) {
+      setSubmitError(result.error);
+      return;
+    }
+
+    setSubmitError(undefined);
+    navigate("/editor", { replace: true });
   };
+
+  // Redirect authenticated users away from Login
+  useEffect(() => {
+    if (isAuthenticated) navigate("/editor", { replace: true });
+  }, [isAuthenticated, navigate]);
 
   return (
     <main className={styles.page}>
@@ -25,11 +44,15 @@ export function LoginPage(): JSX.Element {
             </p>
           </div>
 
-          <LoginForm onSubmit={handleSubmit} />
+          <LoginForm onSubmit={handleSubmit} submitError={submitError} />
 
           <p className={styles.footer}>
             <span>Don’t have an account? </span>
-            <button type="button" className={styles.link}>
+            <button
+              type="button"
+              className={styles.link}
+              onClick={() => navigate("/register")}
+            >
               Create account
             </button>
           </p>
